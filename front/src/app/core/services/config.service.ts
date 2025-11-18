@@ -19,11 +19,25 @@ interface AppConfig {
 })
 export class ConfigService {
     private config: AppConfig | null = null;
+    private defaultConfig: AppConfig = {
+        api: {
+            baseUrl: 'https://versionhub-api.netlify.app/api',
+            timeout: 60000
+        },
+        app: {
+            name: 'VersionHub',
+            description: 'Rastreie versões de tecnologias em tempo real',
+            version: '1.0.0'
+        }
+    };
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+        // Inicializar com valores padrão
+        this.config = this.defaultConfig;
+    }
 
     async loadConfig(): Promise<AppConfig> {
-        if (this.config) {
+        if (this.config && this.config !== this.defaultConfig) {
             return this.config;
         }
 
@@ -33,19 +47,9 @@ export class ConfigService {
             );
             return this.config;
         } catch (error) {
-            console.error('Erro ao carregar configuração:', error);
-            // Retorna configuração padrão em caso de erro
-            return {
-                api: {
-                    baseUrl: 'https://versionhub-api.netlify.app/api',
-                    timeout: 60000
-                },
-                app: {
-                    name: 'VersionHub',
-                    description: 'Rastreie versões de tecnologias em tempo real',
-                    version: '1.0.0'
-                }
-            };
+            console.warn('Configuração não carregada, usando padrão:', error);
+            this.config = this.defaultConfig;
+            return this.config;
         }
     }
 
@@ -54,10 +58,10 @@ export class ConfigService {
     }
 
     getApiUrl(): string {
-        return this.config?.api.baseUrl || '/api';
+        return this.config?.api.baseUrl || this.defaultConfig.api.baseUrl;
     }
 
     getApiTimeout(): number {
-        return this.config?.api.timeout || 60000;
+        return this.config?.api.timeout || this.defaultConfig.api.timeout;
     }
 }

@@ -1,0 +1,17 @@
+node_modules
+.git
+src
+tsconfig.spec.json
+proxy.conf.json
+README.md
+DEPLOY.md
+PRODUCTION.md
+check-production.sh
+.gitignore
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
