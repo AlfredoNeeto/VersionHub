@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VersionHub API - Documentação</title>
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui.css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+
+    <script src="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui-bundle.js"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@5.10.5/swagger-ui-standalone-preset.js"></script>
+    <script>
+        window.onload = function () {
+            const spec = {
+                openapi: "3.0.0",
+                info: {
+                    title: "VersionHub API",
+                    version: "1.0.0",
+                    description: "API para obter as versões das tecnologias em tempo real. Consulta as fontes oficiais de cada tecnologia e retorna as versões mais recentes com cache inteligente.",
+                    contact: {
+                        name: "VersionHub",
+                        email: "contato@versionhub.com"
+                    },
+                    license: {
+                        name: "MIT",
+                        url: "https://opensource.org/licenses/MIT"
+                    }
+                },
+                servers: [
+                    {
+                        url: "https://your-site.netlify.app/api",
+                        description: "API VersionHub",
+                    },
+                ],
+                paths: {
+                    "/versions": {
+                        get: {
+                            summary: "Obtém versões de todas as tecnologias",
+                            description: "Retorna as versões mais recentes de Flutter, Dart, Angular, Node.js e .NET. Os dados são atualizados em tempo real e cacheados por 10 minutos.",
+                            tags: ["Versions"],
+                            responses: {
+                                "200": {
+                                    description: "Lista de versões obtida com sucesso",
+                                    content: {
+                                        "application/json": {
+                                            schema: {
+                                                type: "object",
+                                                properties: {
+                                                    flutter: { $ref: "#/components/schemas/TechVersion" },
+                                                    dart: { $ref: "#/components/schemas/TechVersion" },
+                                                    angular: { $ref: "#/components/schemas/TechVersion" },
+                                                    node: { $ref: "#/components/schemas/TechVersion" },
+                                                    dotnet: { $ref: "#/components/schemas/TechVersion" },
+                                                    updatedAt: {
+                                                        type: "string",
+                                                        description: "Data e hora da última atualização (formato brasileiro)",
+                                                        example: "18/11/2025",
+                                                    },
+                                                },
+                                            },
+                                            example: {
+                                                flutter: {
+                                                    version: "3.38.1",
+                                                    releaseDate: "15/11/2025",
+                                                    extra: {
+                                                        dartVersion: "3.0.6"
+                                                    }
+                                                },
+                                                dart: {
+                                                    version: "3.0.6",
+                                                    releaseDate: "10/11/2025",
+                                                    extra: {
+                                                        revision: "abc123def456"
+                                                    }
+                                                },
+                                                angular: {
+                                                    version: "19.1.0",
+                                                    releaseDate: "12/11/2025"
+                                                },
+                                                node: {
+                                                    version: "20.5.1",
+                                                    releaseDate: "08/11/2025"
+                                                },
+                                                dotnet: {
+                                                    version: "9.0.100",
+                                                    releaseDate: "15/11/2025",
+                                                    extra: {
+                                                        supportPhase: "lts",
+                                                        eolDate: "10/05/2026",
+                                                        releaseType: "lts"
+                                                    }
+                                                },
+                                                updatedAt: "18/11/2025"
+                                            }
+                                        },
+                                    },
+                                },
+                                "500": {
+                                    description: "Erro interno do servidor",
+                                    content: {
+                                        "application/json": {
+                                            schema: {
+                                                type: "object",
+                                                properties: {
+                                                    error: {
+                                                        type: "string",
+                                                        example: "Erro ao obter versões"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                        },
+                    },
+                },
+                components: {
+                    schemas: {
+                        TechVersion: {
+                            type: "object",
+                            description: "Informações sobre a versão de uma tecnologia",
+                            required: ["version"],
+                            properties: {
+                                version: {
+                                    type: "string",
+                                    description: "Número da versão",
+                                    example: "3.38.1",
+                                },
+                                releaseDate: {
+                                    type: "string",
+                                    nullable: true,
+                                    description: "Data de lançamento da versão (formato brasileiro DD/MM/YYYY)",
+                                    example: "15/11/2025",
+                                },
+                                extra: {
+                                    type: "object",
+                                    description: "Informações adicionais específicas da tecnologia",
+                                    additionalProperties: true,
+                                    example: {
+                                        dartVersion: "3.0.6",
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+
+            const ui = SwaggerUIBundle({
+                spec: spec,
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout"
+            });
+            window.ui = ui;
+        };
+    </script>
+</body>
+
+</html>
