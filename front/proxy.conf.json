@@ -1,0 +1,11 @@
+{
+    "/api": {
+        "target": "https://versionhub-api.netlify.app",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": "/api"
+        },
+        "changeOrigin": true,
+        "logLevel": "debug"
+    }
+}

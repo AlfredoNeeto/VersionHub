@@ -1,0 +1,11 @@
+{
+    "api": {
+        "baseUrl": "https://versionhub-api.netlify.app/api",
+        "timeout": 60000
+    },
+    "app": {
+        "name": "VersionHub",
+        "description": "Rastreie versões de tecnologias em tempo real",
+        "version": "1.0.0"
+    }
+}
