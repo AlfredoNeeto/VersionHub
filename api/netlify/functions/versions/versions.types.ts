@@ -10,5 +10,8 @@ export interface VersionInfo {
     angular: TechVersion;
     node: TechVersion;
     dotnet: TechVersion;
+    react: TechVersion;
+    vue: TechVersion;
+    nextjs: TechVersion;
     updatedAt: string;
 }

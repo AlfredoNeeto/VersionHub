@@ -24,6 +24,9 @@ const mockVersionInfo = {
         eolDate: "10/05/2026",
         releaseType: "lts",
     }),
+    react: mockTechVersion("18.3.1", "14/01/2025"),
+    vue: mockTechVersion("3.4.29", "13/01/2025"),
+    nextjs: mockTechVersion("15.0.3", "16/01/2025"),
     updatedAt: "01/01/2025",
 };
 
@@ -40,6 +43,9 @@ describe("Versions Service", () => {
             jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
             jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
             jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
 
             const result = await getVersions();
 
@@ -49,6 +55,9 @@ describe("Versions Service", () => {
             expect(result.angular.version).toBe("19.1.0");
             expect(result.node.version).toBe("20.5.1");
             expect(result.dotnet.version).toBe("9.0.100");
+            expect(result.react.version).toBe("18.3.1");
+            expect(result.vue.version).toBe("3.4.29");
+            expect(result.nextjs.version).toBe("15.0.3");
             expect(result.updatedAt).toBeDefined();
         });
 
@@ -58,6 +67,9 @@ describe("Versions Service", () => {
             jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
             jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
             jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
 
             const result = await getVersions();
 
@@ -71,12 +83,63 @@ describe("Versions Service", () => {
             jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
             jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
             jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
 
             const result = await getVersions();
 
             expect(result.dotnet.extra).toBeDefined();
             expect(result.dotnet.extra?.supportPhase).toBe("lts");
             expect(result.dotnet.extra?.eolDate).toBe("10/05/2026");
+        });
+
+        it("deve retornar dados corretos para React", async () => {
+            jest.spyOn(repository, "getFlutterVersion").mockResolvedValue(mockVersionInfo.flutter);
+            jest.spyOn(repository, "getDartVersion").mockResolvedValue(mockVersionInfo.dart);
+            jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
+            jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
+            jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
+
+            const result = await getVersions();
+
+            expect(result.react.version).toBe("18.3.1");
+            expect(result.react.releaseDate).toBe("14/01/2025");
+        });
+
+        it("deve retornar dados corretos para Vue", async () => {
+            jest.spyOn(repository, "getFlutterVersion").mockResolvedValue(mockVersionInfo.flutter);
+            jest.spyOn(repository, "getDartVersion").mockResolvedValue(mockVersionInfo.dart);
+            jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
+            jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
+            jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
+
+            const result = await getVersions();
+
+            expect(result.vue.version).toBe("3.4.29");
+            expect(result.vue.releaseDate).toBe("13/01/2025");
+        });
+
+        it("deve retornar dados corretos para Next.js", async () => {
+            jest.spyOn(repository, "getFlutterVersion").mockResolvedValue(mockVersionInfo.flutter);
+            jest.spyOn(repository, "getDartVersion").mockResolvedValue(mockVersionInfo.dart);
+            jest.spyOn(repository, "getAngularVersion").mockResolvedValue(mockVersionInfo.angular);
+            jest.spyOn(repository, "getNodeVersion").mockResolvedValue(mockVersionInfo.node);
+            jest.spyOn(repository, "getDotnetVersion").mockResolvedValue(mockVersionInfo.dotnet);
+            jest.spyOn(repository, "getReactVersion").mockResolvedValue(mockVersionInfo.react);
+            jest.spyOn(repository, "getVueVersion").mockResolvedValue(mockVersionInfo.vue);
+            jest.spyOn(repository, "getNextjsVersion").mockResolvedValue(mockVersionInfo.nextjs);
+
+            const result = await getVersions();
+
+            expect(result.nextjs.version).toBe("15.0.3");
+            expect(result.nextjs.releaseDate).toBe("16/01/2025");
         });
     });
 });

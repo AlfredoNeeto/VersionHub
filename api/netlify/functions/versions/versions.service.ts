@@ -5,7 +5,10 @@ import {
     getDartVersion,
     getAngularVersion,
     getNodeVersion,
-    getDotnetVersion
+    getDotnetVersion,
+    getReactVersion,
+    getVueVersion,
+    getNextjsVersion
 } from "./versions.repository";
 import { VersionInfo } from "./versions.types";
 
@@ -28,12 +31,15 @@ export async function getVersions(): Promise<VersionInfo> {
         console.warn("Redis indisponível no GET — seguindo sem cache.");
     }
 
-    const [flutter, dart, angular, node, dotnet] = await Promise.all([
+    const [flutter, dart, angular, node, dotnet, react, vue, nextjs] = await Promise.all([
         getFlutterVersion(),
         getDartVersion(),
         getAngularVersion(),
         getNodeVersion(),
-        getDotnetVersion()
+        getDotnetVersion(),
+        getReactVersion(),
+        getVueVersion(),
+        getNextjsVersion()
     ]);
 
     const data: VersionInfo = {
@@ -42,6 +48,9 @@ export async function getVersions(): Promise<VersionInfo> {
         angular,
         node,
         dotnet,
+        react,
+        vue,
+        nextjs,
         updatedAt: formatDateBR(new Date().toISOString())
     };
 

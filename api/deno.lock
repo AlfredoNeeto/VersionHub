@@ -12,13 +12,16 @@
     "packageJson": {
       "dependencies": [
         "npm:@netlify/functions@^5.1.0",
+        "npm:@types/jest@30",
         "npm:@types/node@^24.10.1",
         "npm:@upstash/redis@^1.35.6",
         "npm:axios@^1.13.2",
         "npm:dotenv@^17.2.3",
         "npm:esbuild@0.27",
         "npm:eslint@^9.39.1",
+        "npm:jest@^30.2.0",
         "npm:prettier@^3.6.2",
+        "npm:ts-jest@^29.4.5",
         "npm:ts-node@^10.9.2",
         "npm:typescript@^5.9.3"
       ]

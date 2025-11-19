@@ -3,6 +3,24 @@ import { withRetry } from "../../../src/core/utils/retry";
 import { formatDateBR } from "../../../src/core/utils/date";
 import { TechVersion } from "./versions.types";
 
+// Função genérica para obter versões do NPM Registry
+async function getNpmPackageVersion(packageName: string, errorMessage: string): Promise<TechVersion> {
+    const json = await withRetry(() =>
+        fetcher.get<any>(`https://registry.npmjs.org/${packageName}`)
+    );
+
+    const latest = json["dist-tags"]?.latest;
+    if (!latest) {
+        throw new Error(errorMessage);
+    }
+    
+    const releaseDateIso = json.time?.[latest];
+    return {
+        version: latest,
+        releaseDate: formatDateBR(releaseDateIso),
+    };
+}
+
 export async function getFlutterVersion(): Promise<TechVersion> {
     const json = await withRetry(() =>
         fetcher.get<any>(
@@ -58,10 +76,10 @@ export async function getNodeVersion(): Promise<TechVersion> {
         fetcher.get<any[]>("https://nodejs.org/dist/index.json")
     );
 
-    const latest = list[0];
+    const latest = list.find((release: any) => release.lts && release.lts !== false);
 
     if (!latest) {
-        throw new Error("Não foi possível obter a versão mais recente do Node.js");
+        throw new Error("Não foi possível obter a versão LTS mais recente do Node.js");
     }
 
     return {
@@ -94,4 +112,16 @@ export async function getDotnetVersion(): Promise<TechVersion> {
             releaseType: latestChannel["release-type"],
         },
     };
+}
+
+export async function getReactVersion(): Promise<TechVersion> {
+    return getNpmPackageVersion("react", "Releases do React não encontrados.");
+}
+
+export async function getVueVersion(): Promise<TechVersion> {
+    return getNpmPackageVersion("vue", "Releases do Vue não encontrados.");
+}
+
+export async function getNextjsVersion(): Promise<TechVersion> {
+    return getNpmPackageVersion("next", "Releases do Next.js não encontrados.");
 }
